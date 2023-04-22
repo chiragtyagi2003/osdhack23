@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Text Summariser and Plagiarism Checker</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			padding: 20px;
+			background-color: #f7f7f7;
+		}
+		h1 {
+			text-align: center;
+			margin-bottom: 30px;
+		}
+		.container {
+			display: flex;
+			max-width: 2000px;
+            max-height: max-content;
+			margin: 000 auto;
+		}
+		.form {
+			flex: 1;
+			background-color: #fff;
+			padding: 20px;
+			border-radius: 5px;
+			box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+			margin-right: 20px;
+            margin-left: 20px;
+		}
+		.form label {
+			display: block;
+			margin-bottom: 10px;
+			font-weight: bold;
+		}
+		.form input[type="text"], .form textarea {
+			width: 95%;
+			padding: 10px;
+			border-radius: 5px;
+			border: 1px solid #ccc;
+			margin-bottom: 20px;
+			font-size: 16px;
+			resize: none;
+		}
+		.form button {
+			background-color: #4CAF50;
+			color: #fff;
+			border: none;
+			padding: 10px 20px;
+			border-radius: 5px;
+			cursor: pointer;
+			font-size: 16px;
+			transition: all 0.2s;
+		}
+		.form button:hover {
+			background-color: #3e8e41;
+		}
+		.result {
+			flex: 1;
+			background-color: #fff;
+			padding: 20px;
+			border-radius: 5px;
+			box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+		}
+		.result pre {
+			font-size: 16px;
+			white-space: pre-wrap;
+			word-wrap: break-word;
+		}
+		.bottom{
+		    height:10vh;
+		    width:20vh;
+			padding-top:30px;
+			padding-left:35px;
+			font-size:35px;
+		    border: solid black;
+
+		}
+		.low{
+		 display:flex;
+		    align-items:center;
+		    justify-content:center;
+		}
+	</style>
+</head>
+<body>
+	<h1>Research Summarizer</h1>
+	<div class="container">
+		<div class="form">
+			<form action="" method="post">
+                <label for="file">Upload a text file:</label>
+                <input type="file" name="file" id="file"><br><br>
+                <label for="text">Or enter text here:</label>
+                <textarea name="summary" id="text" style="height: 400px; font-size: 16px;"></textarea>
+                <button type="submit" name="getStarted">Generate Summary</button>
+            </form>
+		</div>
+		<div class="result">
+			<pre id="output">{{list2}}</pre>
+		</div>
+	</div>
+	
+</div>
+
+</body>
+</html>
