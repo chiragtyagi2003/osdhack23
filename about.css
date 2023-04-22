@@ -1,0 +1,127 @@
+
+*{
+    border: none;
+    margin:0;
+}
+body{
+  background-image: linear-gradient(to right, #f19be7, #d6b0fb, #bfc2ff, #b3d0ff, #b5dbfa);
+}
+
+.nav{
+    overflow: hidden;
+   /* background-color: rgb(60, 239, 167);*/
+   background-image: linear-gradient(to right, #f19be7, #d6b0fb, #bfc2ff, #b3d0ff, #b5dbfa);
+    padding: 10px;
+    position:static;
+}
+.nav a{
+    color: rgb(0, 0, 0);
+    padding:12px;
+    text-decoration: none;
+    font-weight: bolder;
+    font-size: large;
+}
+.scrolldown{
+  background-image: linear-gradient(to right, #f19be7, #d6b0fb, #bfc2ff, #b3d0ff, #b5dbfa);
+  color: rgb(0, 0, 0);
+  font-size: large;
+  font-weight: bolder;
+  height: 40px;
+}
+.scrolldown:hover{
+  cursor:pointer;
+}
+.a:hover{
+   background-color: rgb(0, 0, 0);
+   color:rgb(0, 242, 255);
+}
+
+.title{
+  width:220.55vh;
+  height:60vh ;
+}
+
+.Title{
+    text-align: center;
+    font-family: 'Times New Roman', Times, serif;
+    color: rgb(255, 0, 0); 
+}
+
+.p1{
+    width: 85vh;
+}
+.content{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+.bd-grid {
+  max-width: 1024px;
+  display: grid;
+  grid-template-columns: 100%;
+  column-gap: 5rem;
+  width: calc(100% - 2rem);
+  margin-left: var(--mb-2);
+  margin-right: var(--mb-2);
+}
+.section {
+  padding: 5rem 0 2rem;
+}
+footer{
+    background-color: black;
+}
+
+  .footer__container {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    color:white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 24px;
+  }
+  
+  .footer__box {
+    margin-bottom: var(--mb-4);
+    color:white;
+   
+  }
+  
+  .footer__title {
+    font-size: var(--big-font-size);
+     color:white;
+  }
+  
+  .footer__link {
+    display: block;
+    width: max-content;
+    margin-bottom: var(--mb-1); 
+    color:white;
+   text-decoration: none;
+  }
+  
+  .footer__social {
+    font-size: 1.5rem;
+    margin-right: 1.25rem; 
+    color:white;
+  }
+  
+  .footer__author {
+    padding-top: 3rem;
+    font-size: var(--smaller-font-size);
+    color: var(--dark-color-light);
+    text-align: center; 
+    color:white;
+  }
+  
+  .footer__author-link:hover {
+     text-decoration: underline; 
+    color: rgb(120, 120, 120); 
+    color:white;
+  }
+  li{
+    list-style-type: none;
+  }
+
