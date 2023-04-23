@@ -11,11 +11,28 @@ from sklearn.metrics.pairwise import cosine_similarity
 from collections import Counter
 import PyPDF2 as pdf
 import pickle
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+import pandas as pd
 
 with open('_multiclass_model.pkl', 'rb') as f:
     model = pickle.load(f)
 with open('_multiclass_model_tfidf.pkl', 'rb') as f:
     tfidf = pickle.load(f)
+def get_recommendations(query_string, num_recommendations=5):
+    query_vec = vectorizer.transform([query_string])
+    similarities = cosine_similarity(query_vec, X)[0]
+    indices = similarities.argsort()[::-1][:num_recommendations]
+    return df.iloc[indices]
+def recommend(query_string,num_recommendations=5):
+    df=pd.read_csv(r"C:\Users\shash\OneDrive\Desktop\osdchack.csv")
+    df['text'] = df['Skills'] + ' ' + df['Thesis Neeche']
+    vectorizer = TfidfVectorizer(stop_words='english')
+    X = vectorizer.fit_transform(df['text'])
+    query_vec = vectorizer.transform([query_string])
+    similarities = cosine_similarity(query_vec, X)[0]
+    indices = similarities.argsort()[::-1][:num_recommendations]
+    return df.iloc[indices]
 def GiveSentiment(text):
     xt=tfidf.transform([text])
     t=model.predict(xt)
@@ -286,6 +303,9 @@ development of the industry"""
 from flask import Flask, render_template, request, jsonify
 
 app = Flask(__name__,template_folder=r'C:\Users\shash\PycharmProjects\pythonProject7')
+@app.route('/')
+def start():
+    return render_template('frontPage.html')
 @app.route('/index')
 def index():
    return render_template('index.html')
@@ -295,6 +315,9 @@ def summary():
 @app.route('/input')
 def input():
     return render_template('input.html')
+@app.route('/recommend')
+def recommend_text():
+    return render_template('recommend.html')
 @app.route('/index',methods=['POST'])
 def get_value():
     seed_text1 = " "
@@ -334,7 +357,13 @@ def get_value3():
     thesis=request.form['thesis']
     input_form(name,phone,email,skills,thesis)
     return render_template('input.html')
-# receiving data
+@app.route('/recommend',methods=['POST'])
+def give_recommendation():
+    skills=request.form['skills']
+    domain=request.form['domain']
+    t=recommend(skills+domain)
+    t=t.drop(columns=['Unnamed: 5','text'])
+    return render_template('/recommend.html',list=t.to_html())
 
 
 if __name__=='__main__':
