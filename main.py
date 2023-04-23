@@ -47,6 +47,8 @@ def GiveSentiment(text):
         return "neutral"
     if(t[0][4]==1):
         return "average"
+    else:
+        return "neutral"
 
 def pdf_reader(location):
     string=" "
