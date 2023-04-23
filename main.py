@@ -6,9 +6,31 @@ from nltk.probability import FreqDist
 import string
 import flask
 import requests
+from csv import writer
 from sklearn.metrics.pairwise import cosine_similarity
 from collections import Counter
 import PyPDF2 as pdf
+import pickle
+
+with open('_multiclass_model.pkl', 'rb') as f:
+    model = pickle.load(f)
+with open('_multiclass_model_tfidf.pkl', 'rb') as f:
+    tfidf = pickle.load(f)
+def GiveSentiment(text):
+    xt=tfidf.transform([text])
+    t=model.predict(xt)
+    res=" "
+    if(t[0][0]==1):
+        return "professional"
+    if(t[0][1]==1):
+        return "poor"
+    if(t[0][2]==1):
+        return "confident"
+    if(t[0][3]==1):
+        return "neutral"
+    if(t[0][4]==1):
+        return "average"
+
 def pdf_reader(location):
     string=" "
     file=open(location,'rb')
@@ -49,7 +71,12 @@ def generate_summary(text, num_sentences):
     summary = ' '.join(top_sentences)
 
     return summary
-
+def input_form(name,phone,email,skills,thesis):
+    List=[name,phone,email,skills,thesis]
+    with open(r'C:\Users\shash\OneDrive\Desktop\osdchack.csv', 'a+') as f_object:
+        writer_object = writer(f_object)
+        writer_object.writerow(List)
+        f_object.close()
 def preprocess_text(text):
     # Tokenize the text into sentences and words
     sentences = sent_tokenize(text)
@@ -259,18 +286,31 @@ development of the industry"""
 from flask import Flask, render_template, request, jsonify
 
 app = Flask(__name__,template_folder=r'C:\Users\shash\PycharmProjects\pythonProject7')
-@app.route('/')
+@app.route('/index')
 def index():
-   return render_template('summary.html')
+   return render_template('index.html')
 @app.route('/summary')
 def summary():
     return render_template('Summary.html')
-@app.route('/summary',methods=['POST'])
+@app.route('/input')
+def input():
+    return render_template('input.html')
+@app.route('/index',methods=['POST'])
 def get_value():
-    seed_text = request.form['index']
-    simmilarity=calculate_similarity(seed_text,text2)
-    return render_template('index.html',list=simmilarity)
-@app.route('/',methods=['POST'])
+    seed_text1 = " "
+    seed_text2 = " "
+    try:
+        seed_text1 = request.form['index']
+    except:
+        seed_text1 = " "
+    try:
+        seed_text2 = pdf_reader(request.form['file'])
+    except:
+        seed_text2 = " "
+    score = calculate_similarity(seed_text1 + seed_text2, text2)
+    sentiment=GiveSentiment(seed_text1+seed_text2)
+    return render_template('index.html',list=round(score,4)*100,list2=sentiment)
+@app.route('/summary',methods=['POST'])
 def get_value2():
     seed_text1=" "
     seed_text2=" "
@@ -284,8 +324,16 @@ def get_value2():
         seed_text2=" "
     score = calculate_similarity(seed_text1 + seed_text2, text2)
     simmilarity=generate_summary(seed_text1+seed_text2,5)
-    return render_template('Summary.html',list2=simmilarity,list3=round(score,4)*100)
-
+    return render_template('Summary.html',list2=simmilarity)
+@app.route('/input',methods=['POST'])
+def get_value3():
+    name=request.form['name']
+    phone=request.form['phone']
+    email=request.form['email']
+    skills=request.form['skills']
+    thesis=request.form['thesis']
+    input_form(name,phone,email,skills,thesis)
+    return render_template('input.html')
 # receiving data
 
 
